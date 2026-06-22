@@ -93,7 +93,7 @@ const Signup = () => {
                 style={{ border: "1px solid #e5e7eb", color: "#1a1a1a" }}
                 onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
                 onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
-                placeholder="Khushi Kushwaha"
+                placeholder="Full name"
               />
             </div>
 
