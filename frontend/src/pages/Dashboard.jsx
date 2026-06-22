@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 
 const ScoreRing = ({ score }) => {
   const radius = 54;
@@ -76,27 +77,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
-      <header
-        className="px-8 py-4 flex justify-between items-center"
-        style={{ borderBottom: "1px solid #e5e7eb", backgroundColor: "#ffffff" }}
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
-            <span className="text-white font-semibold text-xs">R</span>
-          </div>
-          <span className="font-semibold" style={{ color: "#1a1a1a" }}>ResumeIQ</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm" style={{ color: "#6b7280" }}>{user?.name}</span>
-          <button
-            onClick={logout}
-            className="text-sm px-3.5 py-1.5 rounded-lg transition"
-            style={{ border: "1px solid #e5e7eb", color: "#374151" }}
-          >
-            Log out
-          </button>
-        </div>
-      </header>
+     <Navbar />
 
       <main className="max-w-3xl mx-auto px-6 py-10">
         <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
