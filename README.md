@@ -45,35 +45,3 @@ npm install
 ```
 
 Create a `.env` file in the root with:
-PORT=5000
-
-MONGO_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-GEMINI_API_KEY=your_gemini_api_key
-
-CLIENT_URL=http://localhost:5173
-
-Run the server:
-```bash
-npm run dev
-```
-
-### Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## Future Improvements
-
-- Resume version comparison
-- Export analysis as PDF
-- Support for DOCX resumes
-- Multi-language support
-
-## Author
-
-Built by Khushi Kushwaha
