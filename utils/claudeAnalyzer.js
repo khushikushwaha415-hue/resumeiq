@@ -1,8 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const analyzeResume = async(resumeText, jobDescription) => {
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
     const prompt = `You are an expert ATS (Applicant Tracking System) and resume reviewer. Analyze the following resume against the given job description.
 
 RESUME TEXT:
@@ -28,22 +30,35 @@ Carefully compare the resume to the job description and respond with ONLY a vali
 
 Be honest and specific. Base the score on actual skill/experience overlap, not just keyword presence. Return ONLY the JSON object.`;
 
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-    });
+    const maxRetries = 3;
+    let lastError;
 
-    const rawText = response.text.trim();
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await ai.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: prompt,
+            });
 
-    // Strip markdown code fences if Gemini adds them despite instructions
-    const cleaned = rawText.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
+            const rawText = response.text.trim();
+            const cleaned = rawText.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
 
-    let parsed;
-    try {
-        parsed = JSON.parse(cleaned);
-    } catch (err) {
-        throw new Error("Failed to parse AI response as JSON: " + err.message);
+            return JSON.parse(cleaned);
+        } catch (err) {
+            lastError = err;
+            const isOverloaded = err ? .status === 503 || err ? .message ? .includes("UNAVAILABLE");
+
+            // Only retry on temporary overload errors, not on permanent failures (e.g. bad API key)
+            if (isOverloaded && attempt < maxRetries) {
+                const waitTime = attempt * 2000; // 2s, then 4s
+                console.log(`Gemini overloaded, retrying in ${waitTime}ms (attempt ${attempt}/${maxRetries})`);
+                await sleep(waitTime);
+                continue;
+            }
+
+            throw err;
+        }
     }
 
-    return parsed;
+    throw lastError;
 };
