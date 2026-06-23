@@ -40,7 +40,11 @@ export const uploadAndAnalyze = async(req, res) => {
         res.status(201).json(resumeRecord);
     } catch (error) {
         console.error("Analyze error:", error);
-        res.status(500).json({ message: "Failed to analyze resume", error: error.message });
+        const statusCode = error.isQuotaError ? 429 : 500;
+        res.status(statusCode).json({
+            message: error.isQuotaError ? error.message : "Failed to analyze resume",
+            error: error.message,
+        });
     }
 };
 
