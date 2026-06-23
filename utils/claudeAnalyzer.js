@@ -46,7 +46,7 @@ Be honest and specific. Base the score on actual skill/experience overlap, not j
             return JSON.parse(cleaned);
         } catch (err) {
             lastError = err;
-            const isOverloaded = err ? .status === 503 || err ? .message ? .includes("UNAVAILABLE");
+            const isOverloaded = err ?.status === 503 || err ?.message ?.includes("UNAVAILABLE");
 
             // Only retry on temporary overload errors, not on permanent failures (e.g. bad API key)
             if (isOverloaded && attempt < maxRetries) {
