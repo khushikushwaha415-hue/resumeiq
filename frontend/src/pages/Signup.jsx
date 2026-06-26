@@ -30,7 +30,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: "#fafaf8" }}>
+   <div className="min-h-screen flex overflow-x-hidden" style={{ backgroundColor: "#fafaf8" }}>
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12" style={{ backgroundColor: "#1a1a1a" }}>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
@@ -54,7 +54,7 @@ const Signup = () => {
         </p>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
+      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-2 mb-10">
             <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
@@ -89,8 +89,8 @@ const Signup = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a" }}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
+                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px" }}
                 onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
                 onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
                 placeholder="Full name"
@@ -106,8 +106,8 @@ const Signup = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a" }}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
+                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px"}}
                 onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
                 onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
                 placeholder="you@example.com"
@@ -124,8 +124,8 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a" }}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
+                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px"}}
                 onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
                 onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
                 placeholder="At least 6 characters"

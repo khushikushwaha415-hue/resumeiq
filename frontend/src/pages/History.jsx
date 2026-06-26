@@ -29,7 +29,7 @@ const History = () => {
     <div className="min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
           Analysis history
         </h1>
@@ -66,26 +66,26 @@ const History = () => {
               style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
               onClick={() => setExpandedId(expandedId === item._id ? null : item._id)}
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium" style={{ color: "#1a1a1a" }}>
-                    {item.fileName}
-                  </p>
-                  <p className="text-xs mt-0.5" style={{ color: "#9ca3af" }}>
-                    {new Date(item.createdAt).toLocaleDateString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-                <div
-                  className="text-lg font-semibold"
-                  style={{ color: scoreColor(item.matchScore) }}
-                >
-                  {item.matchScore}%
-                </div>
-              </div>
+              <div className="flex items-center justify-between gap-3">
+  <div className="min-w-0 flex-1">
+    <p className="text-sm font-medium truncate" style={{ color: "#1a1a1a" }}>
+      {item.fileName}
+    </p>
+    <p className="text-xs mt-0.5" style={{ color: "#9ca3af" }}>
+      {new Date(item.createdAt).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })}
+    </p>
+  </div>
+  <div
+    className="text-lg font-semibold flex-shrink-0"
+    style={{ color: scoreColor(item.matchScore) }}
+  >
+    {item.matchScore}%
+  </div>
+</div>
 
               {expandedId === item._id && (
                 <div className="mt-4 pt-4 space-y-4" style={{ borderTop: "1px solid #f1f1ef" }}>

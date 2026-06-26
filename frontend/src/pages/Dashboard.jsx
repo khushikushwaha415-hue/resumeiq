@@ -79,7 +79,7 @@ const Dashboard = () => {
     <div className="min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
      <Navbar />
 
-      <main className="max-w-3xl mx-auto px-6 py-10">
+     <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
           Analyze your resume
         </h1>
@@ -132,11 +132,11 @@ const Dashboard = () => {
                 onChange={(e) => setJobDescription(e.target.value)}
                 rows={5}
                 placeholder="Paste the job description here..."
-                className="w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a" }}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
+                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px" }}
                 onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
                 onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
-              />
+                />
             </div>
 
             <button
@@ -155,16 +155,15 @@ const Dashboard = () => {
             className="rounded-xl p-7 space-y-7"
             style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
           >
-            <div className="flex items-center gap-6">
-              <ScoreRing score={result.matchScore} />
-              <div>
-                <h2 className="text-lg font-medium mb-1" style={{ color: "#1a1a1a" }}>
-                  Analysis result
-                </h2>
-                <p className="text-sm" style={{ color: "#6b7280" }}>{result.summary}</p>
-              </div>
-            </div>
-
+           <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 text-center sm:text-left">
+  <ScoreRing score={result.matchScore} />
+  <div>
+    <h2 className="text-lg font-medium mb-1" style={{ color: "#1a1a1a" }}>
+      Analysis result
+    </h2>
+    <p className="text-sm" style={{ color: "#6b7280" }}>{result.summary}</p>
+  </div>
+</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ borderTop: "1px solid #f1f1ef", paddingTop: "1.5rem" }}>
               <div>
                 <h3 className="text-xs font-medium mb-2.5" style={{ color: "#374151" }}>
