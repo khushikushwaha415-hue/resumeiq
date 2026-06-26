@@ -1,47 +1,50 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const linkStyle = (path) => ({
-    color: location.pathname === path ? "#1a1a1a" : "#9ca3af",
-    fontWeight: location.pathname === path ? 500 : 400,
-  });
+  const linkClass = (path) =>
+    `text-sm transition ${
+      location.pathname === path
+        ? "text-gray-900 dark:text-gray-100 font-medium"
+        : "text-gray-400 dark:text-gray-500"
+    }`;
 
   return (
-    <header
-      className="px-4 sm:px-8 py-4"
-      style={{ borderBottom: "1px solid #e5e7eb", backgroundColor: "#ffffff" }}
-    >
+    <header className="px-4 sm:px-8 py-4 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
+          <div className="w-7 h-7 rounded-md flex items-center justify-center bg-indigo-600">
             <span className="text-white font-semibold text-xs">R</span>
           </div>
-          <span className="font-semibold" style={{ color: "#1a1a1a" }}>ResumeIQ</span>
+          <span className="font-semibold text-gray-900 dark:text-gray-100">ResumeIQ</span>
         </div>
 
         {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-6 ml-8 flex-1">
-          <Link to="/dashboard" className="text-sm transition" style={linkStyle("/dashboard")}>
+          <Link to="/dashboard" className={linkClass("/dashboard")}>
             Analyze
           </Link>
-          <Link to="/history" className="text-sm transition" style={linkStyle("/history")}>
+          <Link to="/history" className={linkClass("/history")}>
             History
           </Link>
         </nav>
 
         {/* Desktop right side */}
         <div className="hidden sm:flex items-center gap-4">
-          <span className="text-sm truncate max-w-[140px]" style={{ color: "#6b7280" }}>{user?.name}</span>
+          <button onClick={toggleTheme} className="text-lg leading-none" aria-label="Toggle dark mode">
+            {isDark ? "☀️" : "🌙"}
+          </button>
+          <span className="text-sm truncate max-w-[140px] text-gray-500 dark:text-gray-400">{user?.name}</span>
           <button
             onClick={logout}
-            className="text-sm px-3.5 py-1.5 rounded-lg transition"
-            style={{ border: "1px solid #e5e7eb", color: "#374151" }}
+            className="text-sm px-3.5 py-1.5 rounded-lg transition border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300"
           >
             Log out
           </button>
@@ -49,8 +52,7 @@ const Navbar = () => {
 
         {/* Mobile menu button */}
         <button
-          className="sm:hidden text-2xl leading-none"
-          style={{ color: "#1a1a1a" }}
+          className="sm:hidden text-2xl leading-none text-gray-900 dark:text-gray-100"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -60,19 +62,21 @@ const Navbar = () => {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="sm:hidden flex flex-col gap-3 mt-4 pt-4" style={{ borderTop: "1px solid #f1f1ef" }}>
-          <Link to="/dashboard" className="text-sm" style={linkStyle("/dashboard")} onClick={() => setMenuOpen(false)}>
+        <div className="sm:hidden flex flex-col gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+          <Link to="/dashboard" className={linkClass("/dashboard")} onClick={() => setMenuOpen(false)}>
             Analyze
           </Link>
-          <Link to="/history" className="text-sm" style={linkStyle("/history")} onClick={() => setMenuOpen(false)}>
+          <Link to="/history" className={linkClass("/history")} onClick={() => setMenuOpen(false)}>
             History
           </Link>
-          <div className="flex items-center justify-between pt-2" style={{ borderTop: "1px solid #f1f1ef" }}>
-            <span className="text-sm" style={{ color: "#6b7280" }}>{user?.name}</span>
+          <button onClick={toggleTheme} className="text-sm text-left text-gray-500 dark:text-gray-400">
+            {isDark ? "☀️ Light mode" : "🌙 Dark mode"}
+          </button>
+          <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-800">
+            <span className="text-sm text-gray-500 dark:text-gray-400">{user?.name}</span>
             <button
               onClick={logout}
-              className="text-sm px-3.5 py-1.5 rounded-lg transition"
-              style={{ border: "1px solid #e5e7eb", color: "#374151" }}
+              className="text-sm px-3.5 py-1.5 rounded-lg transition border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300"
             >
               Log out
             </button>
