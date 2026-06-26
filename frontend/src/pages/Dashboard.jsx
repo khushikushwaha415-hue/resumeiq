@@ -1,6 +1,5 @@
 import { useState } from "react";
 import API from "../api/axios";
-import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 
 const ScoreRing = ({ score }) => {
@@ -12,7 +11,7 @@ const ScoreRing = ({ score }) => {
   return (
     <div className="relative w-32 h-32 flex items-center justify-center">
       <svg width="128" height="128" className="rotate-[-90deg]">
-        <circle cx="64" cy="64" r={radius} fill="none" stroke="#f1f1ef" strokeWidth="10" />
+        <circle cx="64" cy="64" r={radius} fill="none" className="stroke-gray-100 dark:stroke-gray-700" strokeWidth="10" />
         <circle
           cx="64"
           cy="64"
@@ -27,10 +26,10 @@ const ScoreRing = ({ score }) => {
         />
       </svg>
       <div className="absolute flex flex-col items-center">
-        <span className="text-3xl font-semibold" style={{ color: "#1a1a1a" }}>
+        <span className="text-3xl font-semibold text-gray-900 dark:text-gray-100">
           {score}
         </span>
-        <span className="text-xs" style={{ color: "#9ca3af" }}>
+        <span className="text-xs text-gray-400 dark:text-gray-500">
           match
         </span>
       </div>
@@ -39,7 +38,6 @@ const ScoreRing = ({ score }) => {
 };
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [result, setResult] = useState(null);
@@ -76,42 +74,35 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
-     <Navbar />
+    <div className="min-h-screen bg-[#fafaf8] dark:bg-gray-950">
+      <Navbar />
 
-     <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-        <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+        <h1 className="text-2xl font-medium mb-1 text-gray-900 dark:text-gray-100">
           Analyze your resume
         </h1>
-        <p className="text-sm mb-8" style={{ color: "#6b7280" }}>
+        <p className="text-sm mb-8 text-gray-500 dark:text-gray-400">
           Upload your resume and a job description to see how well they match
         </p>
 
-        <div
-          className="rounded-xl p-7 mb-8"
-          style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
-        >
+        <div className="rounded-xl p-7 mb-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
           {error && (
-            <div
-              className="text-sm px-4 py-3 rounded-lg mb-5"
-              style={{ backgroundColor: "#fef2f2", color: "#dc2626" }}
-            >
+            <div className="text-sm px-4 py-3 rounded-lg mb-5 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#374151" }}>
+              <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-gray-300">
                 Resume (PDF)
               </label>
               <label
-                className="flex items-center justify-center gap-2 px-4 py-6 rounded-lg cursor-pointer text-sm transition"
-                style={{
-                  border: "1.5px dashed #d1d5db",
-                  color: file ? "#1a1a1a" : "#9ca3af",
-                  backgroundColor: file ? "#eef2ff" : "transparent",
-                }}
+                className={`flex items-center justify-center gap-2 px-4 py-6 rounded-lg cursor-pointer text-sm transition border-[1.5px] border-dashed ${
+                  file
+                    ? "border-gray-300 dark:border-gray-600 bg-indigo-50 dark:bg-indigo-950 text-gray-900 dark:text-gray-100"
+                    : "border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500"
+                }`}
               >
                 {file ? file.name : "Click to upload your resume"}
                 <input
@@ -124,7 +115,7 @@ const Dashboard = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#374151" }}>
+              <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-gray-300">
                 Job description
               </label>
               <textarea
@@ -132,18 +123,15 @@ const Dashboard = () => {
                 onChange={(e) => setJobDescription(e.target.value)}
                 rows={5}
                 placeholder="Paste the job description here..."
-                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px" }}
-                onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
-                onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
-                />
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:border-indigo-600 dark:focus:border-indigo-500"
+                style={{ fontSize: "16px" }}
+              />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2.5 rounded-lg text-sm font-medium text-white transition disabled:opacity-50"
-              style={{ backgroundColor: "#1a1a1a" }}
+              className="px-6 py-2.5 rounded-lg text-sm font-medium text-white transition disabled:opacity-50 bg-gray-900 dark:bg-indigo-600"
             >
               {loading ? "Analyzing..." : "Analyze resume"}
             </button>
@@ -151,30 +139,27 @@ const Dashboard = () => {
         </div>
 
         {result && (
-          <div
-            className="rounded-xl p-7 space-y-7"
-            style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
-          >
-           <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 text-center sm:text-left">
-  <ScoreRing score={result.matchScore} />
-  <div>
-    <h2 className="text-lg font-medium mb-1" style={{ color: "#1a1a1a" }}>
-      Analysis result
-    </h2>
-    <p className="text-sm" style={{ color: "#6b7280" }}>{result.summary}</p>
-  </div>
-</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ borderTop: "1px solid #f1f1ef", paddingTop: "1.5rem" }}>
+          <div className="rounded-xl p-7 space-y-7 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 text-center sm:text-left">
+              <ScoreRing score={result.matchScore} />
               <div>
-                <h3 className="text-xs font-medium mb-2.5" style={{ color: "#374151" }}>
+                <h2 className="text-lg font-medium mb-1 text-gray-900 dark:text-gray-100">
+                  Analysis result
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{result.summary}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-gray-100 dark:border-gray-800 pt-6">
+              <div>
+                <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
                   Matched keywords
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {result.matchedKeywords?.map((kw, i) => (
                     <span
                       key={i}
-                      className="text-xs px-2.5 py-1 rounded-md"
-                      style={{ backgroundColor: "#f0fdf4", color: "#15803d" }}
+                      className="text-xs px-2.5 py-1 rounded-md bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-400"
                     >
                       {kw}
                     </span>
@@ -183,7 +168,7 @@ const Dashboard = () => {
               </div>
 
               <div>
-                <h3 className="text-xs font-medium mb-2.5" style={{ color: "#374151" }}>
+                <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
                   Missing keywords
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -191,40 +176,39 @@ const Dashboard = () => {
                     result.missingKeywords.map((kw, i) => (
                       <span
                         key={i}
-                        className="text-xs px-2.5 py-1 rounded-md"
-                        style={{ backgroundColor: "#fef2f2", color: "#b91c1c" }}
+                        className="text-xs px-2.5 py-1 rounded-md bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400"
                       >
                         {kw}
                       </span>
                     ))
                   ) : (
-                    <span className="text-sm" style={{ color: "#9ca3af" }}>None — great match</span>
+                    <span className="text-sm text-gray-400 dark:text-gray-500">None — great match</span>
                   )}
                 </div>
               </div>
             </div>
 
-            <div style={{ borderTop: "1px solid #f1f1ef", paddingTop: "1.5rem" }}>
-              <h3 className="text-xs font-medium mb-2.5" style={{ color: "#374151" }}>
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
+              <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
                 Strengths
               </h3>
               <ul className="space-y-1.5">
                 {result.strengths?.map((s, i) => (
-                  <li key={i} className="text-sm flex gap-2" style={{ color: "#4b5563" }}>
-                    <span style={{ color: "#16a34a" }}>+</span>{s}
+                  <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="text-green-600 dark:text-green-400">+</span>{s}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div style={{ borderTop: "1px solid #f1f1ef", paddingTop: "1.5rem" }}>
-              <h3 className="text-xs font-medium mb-2.5" style={{ color: "#374151" }}>
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
+              <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
                 Suggestions
               </h3>
               <ul className="space-y-1.5">
                 {result.suggestions?.map((s, i) => (
-                  <li key={i} className="text-sm flex gap-2" style={{ color: "#4b5563" }}>
-                    <span style={{ color: "#4f46e5" }}>→</span>{s}
+                  <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="text-indigo-600 dark:text-indigo-400">→</span>{s}
                   </li>
                 ))}
               </ul>
