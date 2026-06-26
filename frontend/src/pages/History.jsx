@@ -22,37 +22,38 @@ const History = () => {
     fetchHistory();
   }, []);
 
-  const scoreColor = (score) =>
-    score >= 75 ? "#16a34a" : score >= 50 ? "#d97706" : "#dc2626";
+  const scoreClass = (score) =>
+    score >= 75
+      ? "text-green-600 dark:text-green-400"
+      : score >= 50
+      ? "text-amber-600 dark:text-amber-400"
+      : "text-red-600 dark:text-red-400";
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#fafaf8" }}>
+    <div className="min-h-screen bg-[#fafaf8] dark:bg-gray-950">
       <Navbar />
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-        <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
+        <h1 className="text-2xl font-medium mb-1 text-gray-900 dark:text-gray-100">
           Analysis history
         </h1>
-        <p className="text-sm mb-8" style={{ color: "#6b7280" }}>
+        <p className="text-sm mb-8 text-gray-500 dark:text-gray-400">
           All your past resume analyses
         </p>
 
         {loading && (
-          <p className="text-sm" style={{ color: "#9ca3af" }}>Loading...</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500">Loading...</p>
         )}
 
         {error && (
-          <div className="text-sm px-4 py-3 rounded-lg" style={{ backgroundColor: "#fef2f2", color: "#dc2626" }}>
+          <div className="text-sm px-4 py-3 rounded-lg bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400">
             {error}
           </div>
         )}
 
         {!loading && history.length === 0 && (
-          <div
-            className="rounded-xl p-10 text-center"
-            style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
-          >
-            <p className="text-sm" style={{ color: "#9ca3af" }}>
+          <div className="rounded-xl p-10 text-center bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+            <p className="text-sm text-gray-400 dark:text-gray-500">
               No analyses yet. Go to "Analyze" to check your first resume.
             </p>
           </div>
@@ -62,45 +63,40 @@ const History = () => {
           {history.map((item) => (
             <div
               key={item._id}
-              className="rounded-xl p-5 cursor-pointer transition"
-              style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
+              className="rounded-xl p-5 cursor-pointer transition bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800"
               onClick={() => setExpandedId(expandedId === item._id ? null : item._id)}
             >
               <div className="flex items-center justify-between gap-3">
-  <div className="min-w-0 flex-1">
-    <p className="text-sm font-medium truncate" style={{ color: "#1a1a1a" }}>
-      {item.fileName}
-    </p>
-    <p className="text-xs mt-0.5" style={{ color: "#9ca3af" }}>
-      {new Date(item.createdAt).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })}
-    </p>
-  </div>
-  <div
-    className="text-lg font-semibold flex-shrink-0"
-    style={{ color: scoreColor(item.matchScore) }}
-  >
-    {item.matchScore}%
-  </div>
-</div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium truncate text-gray-900 dark:text-gray-100">
+                    {item.fileName}
+                  </p>
+                  <p className="text-xs mt-0.5 text-gray-400 dark:text-gray-500">
+                    {new Date(item.createdAt).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+                <div className={`text-lg font-semibold flex-shrink-0 ${scoreClass(item.matchScore)}`}>
+                  {item.matchScore}%
+                </div>
+              </div>
 
               {expandedId === item._id && (
-                <div className="mt-4 pt-4 space-y-4" style={{ borderTop: "1px solid #f1f1ef" }}>
-                  <p className="text-sm" style={{ color: "#6b7280" }}>{item.summary}</p>
+                <div className="mt-4 pt-4 space-y-4 border-t border-gray-100 dark:border-gray-800">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{item.summary}</p>
 
                   <div>
-                    <h4 className="text-xs font-medium mb-2" style={{ color: "#374151" }}>
+                    <h4 className="text-xs font-medium mb-2 text-gray-700 dark:text-gray-300">
                       Matched keywords
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {item.matchedKeywords?.map((kw, i) => (
                         <span
                           key={i}
-                          className="text-xs px-2.5 py-1 rounded-md"
-                          style={{ backgroundColor: "#f0fdf4", color: "#15803d" }}
+                          className="text-xs px-2.5 py-1 rounded-md bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-400"
                         >
                           {kw}
                         </span>
@@ -110,15 +106,14 @@ const History = () => {
 
                   {item.missingKeywords?.length > 0 && (
                     <div>
-                      <h4 className="text-xs font-medium mb-2" style={{ color: "#374151" }}>
+                      <h4 className="text-xs font-medium mb-2 text-gray-700 dark:text-gray-300">
                         Missing keywords
                       </h4>
                       <div className="flex flex-wrap gap-1.5">
                         {item.missingKeywords.map((kw, i) => (
                           <span
                             key={i}
-                            className="text-xs px-2.5 py-1 rounded-md"
-                            style={{ backgroundColor: "#fef2f2", color: "#b91c1c" }}
+                            className="text-xs px-2.5 py-1 rounded-md bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400"
                           >
                             {kw}
                           </span>

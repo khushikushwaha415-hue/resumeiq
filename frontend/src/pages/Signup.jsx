@@ -30,10 +30,10 @@ const Signup = () => {
   };
 
   return (
-   <div className="min-h-screen flex overflow-x-hidden" style={{ backgroundColor: "#fafaf8" }}>
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12" style={{ backgroundColor: "#1a1a1a" }}>
+    <div className="min-h-screen flex overflow-x-hidden bg-[#fafaf8] dark:bg-gray-950">
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 bg-[#1a1a1a] dark:bg-black">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
+          <div className="w-8 h-8 rounded-md flex items-center justify-center bg-indigo-600">
             <span className="text-white font-semibold text-sm">R</span>
           </div>
           <span className="text-white font-semibold text-lg">ResumeIQ</span>
@@ -44,12 +44,12 @@ const Signup = () => {
             Every job description has a<br />
             language. Speak it.
           </p>
-          <p className="text-sm" style={{ color: "#9ca3af" }}>
+          <p className="text-sm text-gray-400">
             Upload your resume, paste the role, get a real match score in seconds.
           </p>
         </div>
 
-        <p className="text-xs" style={{ color: "#6b7280" }}>
+        <p className="text-xs text-gray-500">
           © 2026 ResumeIQ
         </p>
       </div>
@@ -57,31 +57,28 @@ const Signup = () => {
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 py-12">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-2 mb-10">
-            <div className="w-7 h-7 rounded-md flex items-center justify-center" style={{ backgroundColor: "#4f46e5" }}>
+            <div className="w-7 h-7 rounded-md flex items-center justify-center bg-indigo-600">
               <span className="text-white font-semibold text-xs">R</span>
             </div>
-            <span className="font-semibold" style={{ color: "#1a1a1a" }}>ResumeIQ</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">ResumeIQ</span>
           </div>
 
-          <h1 className="text-2xl font-medium mb-1" style={{ color: "#1a1a1a" }}>
+          <h1 className="text-2xl font-medium mb-1 text-gray-900 dark:text-gray-100">
             Create your account
           </h1>
-          <p className="text-sm mb-8" style={{ color: "#6b7280" }}>
+          <p className="text-sm mb-8 text-gray-500 dark:text-gray-400">
             Start getting AI feedback on your resume
           </p>
 
           {error && (
-            <div
-              className="text-sm px-4 py-3 rounded-lg mb-5"
-              style={{ backgroundColor: "#fef2f2", color: "#dc2626" }}
-            >
+            <div className="text-sm px-4 py-3 rounded-lg mb-5 bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-400">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#374151" }}>
+              <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-gray-300">
                 Full name
               </label>
               <input
@@ -89,16 +86,14 @@ const Signup = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px" }}
-                onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
-                onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
-                placeholder="Full name"
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:border-indigo-600 dark:focus:border-indigo-500"
+                style={{ fontSize: "16px" }}
+                placeholder="Khushi Kushwaha"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#374151" }}>
+              <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-gray-300">
                 Email
               </label>
               <input
@@ -106,16 +101,14 @@ const Signup = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px"}}
-                onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
-                onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:border-indigo-600 dark:focus:border-indigo-500"
+                style={{ fontSize: "16px" }}
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "#374151" }}>
+              <label className="block text-xs font-medium mb-1.5 text-gray-700 dark:text-gray-300">
                 Password
               </label>
               <input
@@ -124,10 +117,8 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition"
-                style={{ border: "1px solid #e5e7eb", color: "#1a1a1a", fontSize: "16px"}}
-                onFocus={(e) => (e.target.style.borderColor = "#4f46e5")}
-                onBlur={(e) => (e.target.style.borderColor = "#e5e7eb")}
+                className="w-full px-3.5 py-2.5 rounded-lg outline-none transition border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:border-indigo-600 dark:focus:border-indigo-500"
+                style={{ fontSize: "16px" }}
                 placeholder="At least 6 characters"
               />
             </div>
@@ -135,16 +126,15 @@ const Signup = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition disabled:opacity-50"
-              style={{ backgroundColor: "#1a1a1a" }}
+              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition disabled:opacity-50 bg-gray-900 dark:bg-indigo-600"
             >
               {loading ? "Creating account..." : "Sign up"}
             </button>
           </form>
 
-          <p className="text-sm mt-7 text-center" style={{ color: "#6b7280" }}>
+          <p className="text-sm mt-7 text-center text-gray-500 dark:text-gray-400">
             Already have an account?{" "}
-            <Link to="/login" className="font-medium" style={{ color: "#4f46e5" }}>
+            <Link to="/login" className="font-medium text-indigo-600 dark:text-indigo-400">
               Login
             </Link>
           </p>
