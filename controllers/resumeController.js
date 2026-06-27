@@ -82,34 +82,35 @@ export const deleteResume = async(req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }
-    // @route POST /api/resume/interview-questions
-    export const getInterviewQuestions = async(req, res) => {
-        try {
-            const { jobDescription } = req.body;
+};
 
-            if (!req.file) {
-                return res.status(400).json({ message: "Please upload a resume PDF" });
-            }
-            if (!jobDescription || jobDescription.trim().length < 20) {
-                return res.status(400).json({ message: "Please provide a valid job description" });
-            }
+// @route POST /api/resume/interview-questions
+export const getInterviewQuestions = async(req, res) => {
+    try {
+        const { jobDescription } = req.body;
 
-            const resumeText = await extractTextFromPDF(req.file.buffer);
-
-            if (!resumeText || resumeText.trim().length < 30) {
-                return res.status(400).json({ message: "Could not extract readable text from this PDF" });
-            }
-
-            const questions = await generateInterviewQuestions(resumeText, jobDescription);
-
-            res.status(200).json(questions);
-        } catch (error) {
-            console.error("Interview questions error:", error);
-            const statusCode = error.isQuotaError ? 429 : 500;
-            res.status(statusCode).json({
-                message: error.isQuotaError ? error.message : "Failed to generate interview questions",
-                error: error.message,
-            });
+        if (!req.file) {
+            return res.status(400).json({ message: "Please upload a resume PDF" });
         }
-    };
+        if (!jobDescription || jobDescription.trim().length < 20) {
+            return res.status(400).json({ message: "Please provide a valid job description" });
+        }
+
+        const resumeText = await extractTextFromPDF(req.file.buffer);
+
+        if (!resumeText || resumeText.trim().length < 30) {
+            return res.status(400).json({ message: "Could not extract readable text from this PDF" });
+        }
+
+        const questions = await generateInterviewQuestions(resumeText, jobDescription);
+
+        res.status(200).json(questions);
+    } catch (error) {
+        console.error("Interview questions error:", error);
+        const statusCode = error.isQuotaError ? 429 : 500;
+        res.status(statusCode).json({
+            message: error.isQuotaError ? error.message : "Failed to generate interview questions",
+            error: error.message,
+        });
+    }
 };
