@@ -6,6 +6,7 @@ import {
     getHistory,
     getResumeById,
     deleteResume,
+    getInterviewQuestions,
 } from "../controllers/resumeController.js";
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.post("/analyze", protect, upload.single("resume"), uploadAndAnalyze);
 router.get("/history", protect, getHistory);
 router.get("/:id", protect, getResumeById);
 router.delete("/:id", protect, deleteResume);
+router.post("/interview-questions", protect, upload.single("resume"), getInterviewQuestions);
 
 export default router;

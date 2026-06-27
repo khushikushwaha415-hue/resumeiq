@@ -43,6 +43,8 @@ const Dashboard = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [interviewQuestions, setInterviewQuestions] = useState(null);
+  const [loadingQuestions, setLoadingQuestions] = useState(false);
 
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
@@ -56,6 +58,7 @@ const Dashboard = () => {
 
     setLoading(true);
     setResult(null);
+    setInterviewQuestions(null);
 
     const formData = new FormData();
     formData.append("resume", file);
@@ -70,6 +73,29 @@ const Dashboard = () => {
       setError(err.response?.data?.message || "Failed to analyze resume. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateQuestions = async () => {
+    if (!file || !jobDescription) return;
+
+    setLoadingQuestions(true);
+    setInterviewQuestions(null);
+    setError("");
+
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("jobDescription", jobDescription);
+
+    try {
+      const res = await API.post("/resume/interview-questions", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setInterviewQuestions(res.data);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to generate interview questions.");
+    } finally {
+      setLoadingQuestions(false);
     }
   };
 
@@ -139,7 +165,7 @@ const Dashboard = () => {
         </div>
 
         {result && (
-          <div className="rounded-xl p-7 space-y-7 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+          <div className="rounded-xl p-7 space-y-7 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 mb-8">
             <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 text-center sm:text-left">
               <ScoreRing score={result.matchScore} />
               <div>
@@ -209,6 +235,63 @@ const Dashboard = () => {
                 {result.suggestions?.map((s, i) => (
                   <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
                     <span className="text-indigo-600 dark:text-indigo-400">→</span>{s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
+              <button
+                onClick={handleGenerateQuestions}
+                disabled={loadingQuestions}
+                className="px-6 py-2.5 rounded-lg text-sm font-medium transition disabled:opacity-50 border border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400"
+              >
+                {loadingQuestions ? "Generating questions..." : "Generate interview questions"}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {interviewQuestions && (
+          <div className="rounded-xl p-7 space-y-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+            <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+              Likely interview questions
+            </h2>
+
+            <div>
+              <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
+                Technical
+              </h3>
+              <ul className="space-y-2">
+                {interviewQuestions.technicalQuestions?.map((q, i) => (
+                  <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="text-indigo-600 dark:text-indigo-400 flex-shrink-0">{i + 1}.</span>{q}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
+              <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
+                Behavioral
+              </h3>
+              <ul className="space-y-2">
+                {interviewQuestions.behavioralQuestions?.map((q, i) => (
+                  <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="text-indigo-600 dark:text-indigo-400 flex-shrink-0">{i + 1}.</span>{q}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-6">
+              <h3 className="text-xs font-medium mb-2.5 text-gray-700 dark:text-gray-300">
+                About your projects
+              </h3>
+              <ul className="space-y-2">
+                {interviewQuestions.projectQuestions?.map((q, i) => (
+                  <li key={i} className="text-sm flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="text-indigo-600 dark:text-indigo-400 flex-shrink-0">{i + 1}.</span>{q}
                   </li>
                 ))}
               </ul>
